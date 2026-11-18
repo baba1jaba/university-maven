@@ -32,4 +32,13 @@ public class EnrollmentService {
         repository.save(enrollment);
         return enrollment;
     }
+        /**
+     * Проверяет, записан ли студент на курс.
+     */
+    public boolean isEnrolled(Student student, Course course) {
+        if (student == null || course == null) {
+            throw new IllegalArgumentException("Нужно указать студента и курс");
+        }
+        return repository.findByStudentAndCourse(student.getId(), course.getId()) != null;
+    }
 }
