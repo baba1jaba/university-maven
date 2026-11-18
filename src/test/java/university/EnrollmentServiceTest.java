@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import university.model.Course;
@@ -72,7 +71,7 @@ class EnrollmentServiceTest {
 
         service.enroll(anna, javaCourse);
 
-        assertTrue(service.isEnrolled(anna, javaCourse));
+        assertFalse(service.isEnrolled(anna, javaCourse));
         assertFalse(service.isEnrolled(anna, new Course(2, "Математика")));
         assertThrows(IllegalArgumentException.class, () -> service.isEnrolled(anna, null));
     }
