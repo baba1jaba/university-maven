@@ -1,19 +1,19 @@
 package university;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
+
 import university.model.Course;
 import university.model.Enrollment;
 import university.model.Student;
 import university.repository.CourseRepository;
 import university.repository.InMemoryCourseRepository;
 import university.service.EnrollmentService;
-
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 class EnrollmentServiceTest {
     @Test
     void enrollSucceedsWhenStudentIsNewOnCourse() {
@@ -61,7 +61,21 @@ class EnrollmentServiceTest {
         Enrollment otherStudent = service.enroll(boris, javaCourse);
         assertEquals(3, otherStudent.getId());
     }
+    @Test
+    void isEnrolledReturnsTrueOnlyAfterEnroll() {
+        CourseRepository repository = new InMemoryCourseRepository();
+        EnrollmentService service = new EnrollmentService(repository);
+        Student anna = new Student(1, "Анна Смирнова");
+        Course javaCourse = javaCourse();
 
+        assertFalse(service.isEnrolled(anna, javaCourse));
+
+        service.enroll(anna, javaCourse);
+
+        assertTrue(service.isEnrolled(anna, javaCourse));
+        assertFalse(service.isEnrolled(anna, new Course(2, "Математика")));
+        assertThrows(IllegalArgumentException.class, () -> service.isEnrolled(anna, null));
+    }
     private Course javaCourse() {
         return new Course(1, "Программирование на Java");
     }
