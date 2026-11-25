@@ -1,34 +1,53 @@
 package university;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import university.model.Course;
-import university.model.Enrollment;
 import university.model.Student;
 import university.repository.CourseRepository;
 import university.repository.InMemoryCourseRepository;
 import university.service.EnrollmentService;
 
-/**
- * Точка входа. Main создает хранилище и передает его в сервис.
- */
 public class Main {
+
+    private static final Logger logger =
+            LoggerFactory.getLogger(Main.class);
+
     public static void main(String[] args) {
-        CourseRepository repository = new InMemoryCourseRepository();
-        EnrollmentService service = new EnrollmentService(repository);
+
+        CourseRepository repository =
+                new InMemoryCourseRepository();
+
+        EnrollmentService service =
+                new EnrollmentService(repository);
 
         Student anna = new Student(1, "Анна Смирнова");
-        Course javaCourse = new Course(1, "Программирование на Java");
-        Course mathCourse = new Course(2, "Математика");
 
-        Enrollment first = service.enroll(anna, javaCourse);
-        System.out.println("Оформлено: " + first);
+        Course javaCourse =
+                new Course(1, "Программирование на Java");
 
+        Course mathCourse =
+                new Course(2, "Математика");
+
+        // Успешная запись
+        service.enroll(anna, javaCourse);
+
+        // Повторная запись
         try {
             service.enroll(anna, javaCourse);
         } catch (IllegalStateException exception) {
-            System.out.println("Отклонено: " + exception.getMessage());
+            logger.info("Duplicate enrollment scenario completed");
         }
 
-        Enrollment second = service.enroll(anna, mathCourse);
-        System.out.println("Оформлено: " + second);
+        // Запись на другую дисциплину
+        service.enroll(anna, mathCourse);
+
+        // Проверка ERROR
+        try {
+            service.enroll(anna, null);
+        } catch (IllegalArgumentException exception) {
+            logger.info("Invalid enrollment scenario completed");
+        }
     }
 }
