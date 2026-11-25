@@ -8,7 +8,7 @@ import university.model.Enrollment;
 import university.model.Student;
 import university.repository.CourseRepository;
 
-public class EnrollmentService {//gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+public class EnrollmentService {
 
     private static final Logger logger =
             LoggerFactory.getLogger(EnrollmentService.class);
