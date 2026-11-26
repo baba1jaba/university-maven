@@ -5,21 +5,17 @@
 
 <module name="Checker">
 
-    <!-- Проверка длины строк -->
-    <module name="LineLength">
+        <module name="LineLength">
         <property name="max" value="120"/>
     </module>
 
-    <!-- Запрет табуляции -->
-    <module name="FileTabCharacter"/>
+        <module name="FileTabCharacter"/>
 
-    <!-- Проверка окончания файла -->
-    <module name="NewlineAtEndOfFile"/>
+        <module name="NewlineAtEndOfFile"/>
 
     <module name="TreeWalker">
 
-        <!-- Запрет импорта всех классов через * -->
-        <module name="AvoidStarImport"/>
+                <module name="AvoidStarImport"/>
 
     </module>
 
